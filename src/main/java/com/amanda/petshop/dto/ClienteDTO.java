@@ -13,5 +13,5 @@ public class ClienteDTO {
     private String cpf;
     private LocalDate dataDeCadastro;
     private String usuarioCpf;
-    //private UsuarioDTO usuario;
+
 }

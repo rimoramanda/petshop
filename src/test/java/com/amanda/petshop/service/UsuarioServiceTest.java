@@ -150,6 +150,6 @@ public class UsuarioServiceTest {
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> usuarioService.deletar(cpf));
         assertEquals("Usuário não encontrado", thrown.getMessage());
-        verify(usuarioRepository, times(0)).deleteByCpf(cpf); // Não deve tentar deletar se não encontrar o usuário
+        verify(usuarioRepository, times(0)).deleteByCpf(cpf);
     }
 }

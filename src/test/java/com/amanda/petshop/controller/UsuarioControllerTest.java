@@ -108,7 +108,6 @@ public class UsuarioControllerTest {
         usuarioDTO.setNome("Usuário Atualizado");
         usuarioDTO.setPerfil("Cliente");
 
-        // Simula o comportamento do serviço
         when(usuarioService.atualizar(eq(cpf), any(UsuarioDTO.class))).thenReturn(usuarioDTO);
 
         mockMvc.perform(put("/usuarios/{cpf}", cpf)

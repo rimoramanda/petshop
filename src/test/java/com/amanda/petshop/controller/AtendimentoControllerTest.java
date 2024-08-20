@@ -44,7 +44,7 @@ public class AtendimentoControllerTest {
     private AtendimentoService atendimentoService;
 
     @MockBean
-    private PetService petService; // Adicione isso se o PetService for um serviço separado
+    private PetService petService;
 
     @InjectMocks
     private AtendimentoController atendimentoController;
@@ -56,7 +56,7 @@ public class AtendimentoControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Inicialize o pet e o atendimento
+
         pet = new Pet();
         pet.setId(1L);
 

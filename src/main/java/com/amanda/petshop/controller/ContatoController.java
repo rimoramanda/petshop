@@ -47,10 +47,10 @@ public class ContatoController {
         ClienteDTO clienteDTO = clienteService.buscarPorId(contato.getCliente().getId())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
 
-        //  clienteDTO de volta para a entidade Cliente
+
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
 
-        // liga o cliente ao contato aqui
+
         contato.setCliente(cliente);
 
         Contato novoContato = contatoService.salvarOuAtualizar(contato);
@@ -72,7 +72,7 @@ public class ContatoController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         if (contatoService.buscarPorId(id).isPresent()) {
             contatoService.deletar(id);
-            return ResponseEntity.noContent().build(); // Corrigido para 204 No Content
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }

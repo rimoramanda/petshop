@@ -83,10 +83,10 @@ public class ContatoControllerTest {
 
     @Test
     void testSalvarContato() throws Exception {
-        Long clienteId = 666L; // Defina um ID de cliente fictício
+        Long clienteId = 666L;
         Contato contato = new Contato();
         contato.setTipo("amanda@gmail.com");
-        contato.setCliente(new Cliente()); // Defina o cliente associado ao contato
+        contato.setCliente(new Cliente());
 
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setId(clienteId);
