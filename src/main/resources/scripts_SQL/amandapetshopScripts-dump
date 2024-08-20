@@ -1,0 +1,667 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.13 (Ubuntu 14.13-0ubuntu0.22.04.1)
+
+-- Started on 2024-08-20 15:37:10 -03
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 221 (class 1259 OID 16634)
+-- Name: atendimento; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.atendimento (
+    id bigint NOT NULL,
+    pet_id bigint NOT NULL,
+    descricao_do_atendimento character varying(255) NOT NULL,
+    valor numeric(38,2) NOT NULL,
+    data date NOT NULL
+);
+
+
+ALTER TABLE public.atendimento OWNER TO admin;
+
+--
+-- TOC entry 220 (class 1259 OID 16633)
+-- Name: atendimento_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.atendimento_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.atendimento_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3426 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: atendimento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.atendimento_id_seq OWNED BY public.atendimento.id;
+
+
+--
+-- TOC entry 211 (class 1259 OID 16439)
+-- Name: clientes; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.clientes (
+    id bigint NOT NULL,
+    nome character varying(255) NOT NULL,
+    cpf character varying(255) NOT NULL,
+    data_de_cadastro date NOT NULL,
+    usuario_cpf character varying(255)
+);
+
+
+ALTER TABLE public.clientes OWNER TO admin;
+
+--
+-- TOC entry 210 (class 1259 OID 16438)
+-- Name: clientes_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.clientes_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.clientes_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3427 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: clientes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.clientes_id_seq OWNED BY public.clientes.id;
+
+
+--
+-- TOC entry 215 (class 1259 OID 16467)
+-- Name: contatos; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.contatos (
+    id bigint NOT NULL,
+    id_cliente bigint,
+    tag character varying(255),
+    tipo character varying(255) NOT NULL,
+    valor character varying(255) NOT NULL,
+    CONSTRAINT contatos_tipo_check CHECK (((tipo)::text = ANY (ARRAY[('e-mail'::character varying)::text, ('telefone'::character varying)::text])))
+);
+
+
+ALTER TABLE public.contatos OWNER TO admin;
+
+--
+-- TOC entry 214 (class 1259 OID 16466)
+-- Name: contatos_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.contatos_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.contatos_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3428 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: contatos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.contatos_id_seq OWNED BY public.contatos.id;
+
+
+--
+-- TOC entry 213 (class 1259 OID 16453)
+-- Name: enderecos; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.enderecos (
+    id bigint NOT NULL,
+    id_cliente bigint,
+    logradouro character varying(255) NOT NULL,
+    cidade character varying(255) NOT NULL,
+    bairro character varying(255) NOT NULL,
+    complemento character varying(255),
+    tag character varying(255)
+);
+
+
+ALTER TABLE public.enderecos OWNER TO admin;
+
+--
+-- TOC entry 212 (class 1259 OID 16452)
+-- Name: enderecos_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.enderecos_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.enderecos_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3429 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: enderecos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.enderecos_id_seq OWNED BY public.enderecos.id;
+
+
+--
+-- TOC entry 219 (class 1259 OID 16487)
+-- Name: pets; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.pets (
+    id bigint NOT NULL,
+    id_cliente bigint,
+    id_raca bigint,
+    data_de_nascimento date NOT NULL,
+    nome character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.pets OWNER TO admin;
+
+--
+-- TOC entry 218 (class 1259 OID 16486)
+-- Name: pets_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.pets_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pets_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3430 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: pets_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.pets_id_seq OWNED BY public.pets.id;
+
+
+--
+-- TOC entry 217 (class 1259 OID 16480)
+-- Name: racas; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.racas (
+    id bigint NOT NULL,
+    descricao character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.racas OWNER TO admin;
+
+--
+-- TOC entry 216 (class 1259 OID 16479)
+-- Name: racas_id_seq; Type: SEQUENCE; Schema: public; Owner: admin
+--
+
+CREATE SEQUENCE public.racas_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.racas_id_seq OWNER TO admin;
+
+--
+-- TOC entry 3431 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: racas_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: admin
+--
+
+ALTER SEQUENCE public.racas_id_seq OWNED BY public.racas.id;
+
+
+--
+-- TOC entry 209 (class 1259 OID 16432)
+-- Name: usuarios; Type: TABLE; Schema: public; Owner: admin
+--
+
+CREATE TABLE public.usuarios (
+    cpf character varying(255) NOT NULL,
+    nome character varying(255) NOT NULL,
+    perfil character varying(255) NOT NULL,
+    senha character varying(255) NOT NULL,
+    CONSTRAINT usuarios_perfil_check CHECK (((perfil)::text = ANY (ARRAY[('cliente'::character varying)::text, ('admin'::character varying)::text])))
+);
+
+
+ALTER TABLE public.usuarios OWNER TO admin;
+
+--
+-- TOC entry 3245 (class 2604 OID 16645)
+-- Name: atendimento id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.atendimento ALTER COLUMN id SET DEFAULT nextval('public.atendimento_id_seq'::regclass);
+
+
+--
+-- TOC entry 3239 (class 2604 OID 16503)
+-- Name: clientes id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.clientes ALTER COLUMN id SET DEFAULT nextval('public.clientes_id_seq'::regclass);
+
+
+--
+-- TOC entry 3241 (class 2604 OID 16535)
+-- Name: contatos id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.contatos ALTER COLUMN id SET DEFAULT nextval('public.contatos_id_seq'::regclass);
+
+
+--
+-- TOC entry 3240 (class 2604 OID 16556)
+-- Name: enderecos id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.enderecos ALTER COLUMN id SET DEFAULT nextval('public.enderecos_id_seq'::regclass);
+
+
+--
+-- TOC entry 3244 (class 2604 OID 16576)
+-- Name: pets id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.pets ALTER COLUMN id SET DEFAULT nextval('public.pets_id_seq'::regclass);
+
+
+--
+-- TOC entry 3243 (class 2604 OID 16601)
+-- Name: racas id; Type: DEFAULT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.racas ALTER COLUMN id SET DEFAULT nextval('public.racas_id_seq'::regclass);
+
+
+--
+-- TOC entry 3420 (class 0 OID 16634)
+-- Dependencies: 221
+-- Data for Name: atendimento; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.atendimento (id, pet_id, descricao_do_atendimento, valor, data) FROM stdin;
+1	11	Consulta de rotina	120.00	2024-08-13
+2	12	Vacinação	180.00	2024-08-14
+3	13	Exame de sangue	220.00	2024-08-15
+4	14	Controle de parasitas	140.00	2024-08-16
+5	15	Limpeza dental	160.00	2024-08-17
+6	16	Corte de unhas	80.00	2024-08-18
+10	11	Consulta de rotina	100.00	2024-08-13
+11	12	Vacinação	150.00	2024-08-14
+12	16	Exame de sangue	200.00	2024-08-15
+14	14	Tosa	90.00	2024-08-13
+16	15	Hotelzinho Vaga	900.00	2024-08-14
+15	16	Hotelzinho Noturno	890.00	2024-08-14
+\.
+
+
+--
+-- TOC entry 3410 (class 0 OID 16439)
+-- Dependencies: 211
+-- Data for Name: clientes; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.clientes (id, nome, cpf, data_de_cadastro, usuario_cpf) FROM stdin;
+1	Carlos Oliveira	234.567.890-01	2024-08-13	234.567.890-01
+2	Fernanda Santos	345.678.901-12	2024-08-13	345.678.901-12
+3	Juliana Costa	567.890.123-34	2024-08-13	567.890.123-34
+4	Patricia Alves	789.012.345-56	2024-08-13	789.012.345-56
+12	João Silva	553.456.789-90	2024-08-13	553.456.789-90
+13	Madalena Miller	966.623.321-77	2024-08-13	966.623.321-77
+15	Marina Silva	62243512777	2024-08-14	62243512777
+16	Bob Shawn	333.666.999-00	2024-08-15	\N
+17	Chaves Oito	73362456686	2024-08-15	\N
+18	Girafales	12355577788	2024-08-15	12355577788
+\.
+
+
+--
+-- TOC entry 3414 (class 0 OID 16467)
+-- Dependencies: 215
+-- Data for Name: contatos; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.contatos (id, id_cliente, tag, tipo, valor) FROM stdin;
+4	1	Celular	telefone	+55 11 91234-5678
+5	1	Email	e-mail	ana.silva@email.com
+6	2	Celular	telefone	+55 21 98765-4321
+7	2	Email	e-mail	carlos.oliveira@email.com
+8	3	Telefone	telefone	+55 31 99876-5432
+9	3	Email	e-mail	fernanda.santos@email.com
+10	4	Telefone	telefone	+55 41 92345-6789
+11	4	Email	e-mail	lucas.pereira@email.com
+16	13	Celular	telefone	+55 11 6667-5333
+\.
+
+
+--
+-- TOC entry 3412 (class 0 OID 16453)
+-- Dependencies: 213
+-- Data for Name: enderecos; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.enderecos (id, id_cliente, logradouro, cidade, bairro, complemento, tag) FROM stdin;
+11	1	Rua das Flores, 123	São Paulo	Jardim das Rosas	Apto 45	Residencial
+12	2	Av. Paulista, 1000	São Paulo	Centro	Sala 101	Comercial
+13	3	Rua da Praia, 456	Santos	Boqueirão	Casa 3	Residencial
+14	4	Praça da República, 5	São Paulo	República	Apartamento 12	Comercial
+15	15	Av. Paulista, 1000	São Paulo	Centro	loja333	Comercial
+16	13	Av. Juca Bala, 1200	Rio Grande do Sul	Zona sul	num 123	Residencial
+\.
+
+
+--
+-- TOC entry 3418 (class 0 OID 16487)
+-- Dependencies: 219
+-- Data for Name: pets; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.pets (id, id_cliente, id_raca, data_de_nascimento, nome) FROM stdin;
+11	1	1	2020-05-15	Rex
+12	2	2	2021-07-22	Bella
+13	3	3	2019-10-05	Simba
+14	4	4	2022-01-11	Luna
+15	1	5	2021-08-18	Max
+16	2	6	2018-03-25	Milo
+\.
+
+
+--
+-- TOC entry 3416 (class 0 OID 16480)
+-- Dependencies: 217
+-- Data for Name: racas; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.racas (id, descricao) FROM stdin;
+1	Labrador
+2	Poodle
+3	Siamês
+4	Persa
+5	Bulldog
+6	Golden Retriever
+7	Mestiço
+\.
+
+
+--
+-- TOC entry 3408 (class 0 OID 16432)
+-- Dependencies: 209
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: admin
+--
+
+COPY public.usuarios (cpf, nome, perfil, senha) FROM stdin;
+123.456.789-00	Ana Silva	admin	senha123
+234.567.890-01	Carlos Oliveira	cliente	senha456
+345.678.901-12	Fernanda Santos	cliente	senha789
+456.789.012-23	Lucas Pereira	admin	senha000
+567.890.123-34	Juliana Costa	cliente	senha1234
+678.901.234-45	Marcos Lima	admin	senha5678
+789.012.345-56	Patricia Alves	cliente	senha9012
+890.123.456-67	Ricardo Martins	admin	senha3456
+553.456.789-90	João Silva	cliente	SenhaSecreta123
+987.654.321-00	Maria Oliveira	admin	SenhaForte456
+966.623.321-77	Madalena Miller	cliente	SenhaSegura00
+62243512777	Marina Silva	cliente	novaSenha123atual
+85562025000	Amanda Flores	cliente	123senhaboa
+333.666.999-00	Bob Shawn	cliente	SenhaForte
+73362456686	Chaves Oito	cliente	SenhaBoa
+53362543288	Madruga	cliente	72SenhaBoa
+11162543288	Florinda	cliente	14Senha
+12355577788	Girafales	cliente	142Senha
+\.
+
+
+--
+-- TOC entry 3432 (class 0 OID 0)
+-- Dependencies: 220
+-- Name: atendimento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.atendimento_id_seq', 16, true);
+
+
+--
+-- TOC entry 3433 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: clientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.clientes_id_seq', 18, true);
+
+
+--
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: contatos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.contatos_id_seq', 18, true);
+
+
+--
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: enderecos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.enderecos_id_seq', 16, true);
+
+
+--
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: pets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.pets_id_seq', 31, true);
+
+
+--
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: racas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin
+--
+
+SELECT pg_catalog.setval('public.racas_id_seq', 7, true);
+
+
+--
+-- TOC entry 3261 (class 2606 OID 16647)
+-- Name: atendimento atendimento_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.atendimento
+    ADD CONSTRAINT atendimento_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3249 (class 2606 OID 16527)
+-- Name: clientes clientes_cpf_key; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_cpf_key UNIQUE (cpf);
+
+
+--
+-- TOC entry 3251 (class 2606 OID 16505)
+-- Name: clientes clientes_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3255 (class 2606 OID 16537)
+-- Name: contatos contatos_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.contatos
+    ADD CONSTRAINT contatos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3253 (class 2606 OID 16558)
+-- Name: enderecos enderecos_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.enderecos
+    ADD CONSTRAINT enderecos_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3259 (class 2606 OID 16578)
+-- Name: pets pets_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.pets
+    ADD CONSTRAINT pets_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3257 (class 2606 OID 16603)
+-- Name: racas racas_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.racas
+    ADD CONSTRAINT racas_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 3247 (class 2606 OID 16614)
+-- Name: usuarios usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.usuarios
+    ADD CONSTRAINT usuarios_pkey PRIMARY KEY (cpf);
+
+
+--
+-- TOC entry 3268 (class 2606 OID 16652)
+-- Name: atendimento atendimento_pet_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.atendimento
+    ADD CONSTRAINT atendimento_pet_id_fkey FOREIGN KEY (pet_id) REFERENCES public.pets(id);
+
+
+--
+-- TOC entry 3262 (class 2606 OID 16615)
+-- Name: clientes clientes_cpf_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT clientes_cpf_fkey FOREIGN KEY (cpf) REFERENCES public.usuarios(cpf);
+
+
+--
+-- TOC entry 3265 (class 2606 OID 16545)
+-- Name: contatos contatos_id_cliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.contatos
+    ADD CONSTRAINT contatos_id_cliente_fkey FOREIGN KEY (id_cliente) REFERENCES public.clientes(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3264 (class 2606 OID 16565)
+-- Name: enderecos enderecos_id_cliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.enderecos
+    ADD CONSTRAINT enderecos_id_cliente_fkey FOREIGN KEY (id_cliente) REFERENCES public.clientes(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3263 (class 2606 OID 16686)
+-- Name: clientes fk_usuario; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.clientes
+    ADD CONSTRAINT fk_usuario FOREIGN KEY (usuario_cpf) REFERENCES public.usuarios(cpf) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3266 (class 2606 OID 16583)
+-- Name: pets pets_id_cliente_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.pets
+    ADD CONSTRAINT pets_id_cliente_fkey FOREIGN KEY (id_cliente) REFERENCES public.clientes(id) ON DELETE CASCADE;
+
+
+--
+-- TOC entry 3267 (class 2606 OID 16604)
+-- Name: pets pets_id_raca_fkey; Type: FK CONSTRAINT; Schema: public; Owner: admin
+--
+
+ALTER TABLE ONLY public.pets
+    ADD CONSTRAINT pets_id_raca_fkey FOREIGN KEY (id_raca) REFERENCES public.racas(id);
+
+
+-- Completed on 2024-08-20 15:37:10 -03
+
+--
+-- PostgreSQL database dump complete
+--
+
