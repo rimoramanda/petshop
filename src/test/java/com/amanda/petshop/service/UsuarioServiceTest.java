@@ -1,6 +1,7 @@
 package com.amanda.petshop.service;
 
 import com.amanda.petshop.dto.UsuarioDTO;
+import com.amanda.petshop.entity.Perfil;
 import com.amanda.petshop.entity.Usuario;
 import com.amanda.petshop.mapper.UsuarioMapper;
 import com.amanda.petshop.repository.UsuarioRepository;
@@ -11,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -38,24 +39,24 @@ public class UsuarioServiceTest {
         Usuario usuario1 = new Usuario();
         usuario1.setCpf("12345678900");
         usuario1.setNome("Ricardo Alves");
-        usuario1.setPerfil("Admin");
+        usuario1.setPerfil(Perfil.ADMIN);
         usuario1.setSenha("SenhaBoa");
 
         Usuario usuario2 = new Usuario();
         usuario2.setCpf("09876543211");
         usuario2.setNome("Leticia Lourdes");
-        usuario2.setPerfil("Cliente");
+        usuario2.setPerfil(Perfil.CLIENTE);
         usuario2.setSenha("SenhaOtima");
 
         UsuarioDTO usuarioDTO1 = new UsuarioDTO();
         usuarioDTO1.setCpf("12345678900");
         usuarioDTO1.setNome("Ricardo Alves");
-        usuarioDTO1.setPerfil("Admin");
+        usuarioDTO1.setPerfil(Perfil.ADMIN);
 
         UsuarioDTO usuarioDTO2 = new UsuarioDTO();
         usuarioDTO2.setCpf("09876543211");
         usuarioDTO2.setNome("Leticia Lourdes");
-        usuarioDTO2.setPerfil("Cliente");
+        usuarioDTO2.setPerfil(Perfil.CLIENTE);
 
         when(usuarioRepository.findAll()).thenReturn(List.of(usuario1, usuario2));
         when(usuarioMapper.toDTO(usuario1)).thenReturn(usuarioDTO1);
@@ -77,14 +78,14 @@ public class UsuarioServiceTest {
         Usuario usuario = new Usuario();
         usuario.setCpf(cpf);
         usuario.setNome("Amanda Eu");
-        usuario.setPerfil("Admin");
+        usuario.setPerfil(Perfil.ADMIN);
 
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setCpf(cpf);
         usuarioDTO.setNome("Amanda Eu");
-        usuarioDTO.setPerfil("Admin");
+        usuarioDTO.setPerfil(Perfil.ADMIN);
 
-        when(usuarioRepository.findByCpf(cpf)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByCpf(cpf)).thenReturn((usuario));
         when(usuarioMapper.toDTO(usuario)).thenReturn(usuarioDTO);
 
         UsuarioDTO result = usuarioService.buscarPorCpf(cpf);
@@ -98,7 +99,7 @@ public class UsuarioServiceTest {
     void testBuscarPorCpfUsuarioNaoEncontrado() {
         String cpf = "12345678900";
 
-        when(usuarioRepository.findByCpf(cpf)).thenReturn(Optional.empty());
+        when(usuarioRepository.findByCpf(cpf)).thenReturn(null);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> usuarioService.buscarPorCpf(cpf));
         assertEquals("Usuário não encontrado", thrown.getMessage());
@@ -110,12 +111,12 @@ public class UsuarioServiceTest {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setCpf("12345678900");
         usuarioDTO.setNome("Cristiane");
-        usuarioDTO.setPerfil("Admin");
+        usuarioDTO.setPerfil(Perfil.ADMIN);
 
         Usuario usuario = new Usuario();
         usuario.setCpf("12345678900");
         usuario.setNome("Cristiane");
-        usuario.setPerfil("Admin");
+        usuario.setPerfil(Perfil.ADMIN);
         usuario.setSenha("minhaSenha");
 
         when(usuarioMapper.toEntity(usuarioDTO)).thenReturn(usuario);
@@ -133,7 +134,7 @@ public class UsuarioServiceTest {
     void testDeletar() {
         String cpf = "12345678900";
 
-        when(usuarioRepository.findByCpf(cpf)).thenReturn(Optional.of(new Usuario()));
+        when(usuarioRepository.findByCpf(cpf)).thenReturn((new Usuario()));
 
         doNothing().when(usuarioRepository).deleteById(cpf);
 
@@ -146,7 +147,7 @@ public class UsuarioServiceTest {
     void testDeletarUsuarioNaoEncontrado() {
         String cpf = "12345678900";
 
-        when(usuarioRepository.findByCpf(cpf)).thenReturn(Optional.empty());
+        when(usuarioRepository.findByCpf(cpf)).thenReturn(null);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> usuarioService.deletar(cpf));
         assertEquals("Usuário não encontrado", thrown.getMessage());

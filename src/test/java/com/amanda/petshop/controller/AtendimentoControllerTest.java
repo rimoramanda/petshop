@@ -120,7 +120,7 @@ public class AtendimentoControllerTest {
         // Execução do mockMvc e verificação da resposta
         mockMvc.perform(get("/atendimentos"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(listaAtendimentos.size()))  // Verifica o tamanho da lista retornada
+                .andExpect(jsonPath("$.length()").value(listaAtendimentos.size()))
                 .andExpect(jsonPath("$[0].descricaoDoAtendimento").value("Banho e Tosa"))
                 .andExpect(jsonPath("$[0].valor").value(50.0))
                 .andExpect(jsonPath("$[1].descricaoDoAtendimento").value("Consulta Veterinária"))

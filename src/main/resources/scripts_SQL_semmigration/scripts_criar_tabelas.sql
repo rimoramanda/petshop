@@ -52,4 +52,11 @@ CREATE TABLE pets (
     nome VARCHAR(100) NOT NULL
 );
 
-ps.nao esta completa sao apenas os scripts iniciais
+CREATE TABLE public.atendimento (
+    id bigint NOT NULL,
+    pet_id bigint NOT NULL,
+    descricao_do_atendimento character varying(255) NOT NULL,
+    valor numeric(38,2) NOT NULL,
+    data date NOT NULL
+);
+

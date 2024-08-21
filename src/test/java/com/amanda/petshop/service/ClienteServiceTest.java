@@ -2,6 +2,7 @@ package com.amanda.petshop.service;
 
 import com.amanda.petshop.dto.ClienteDTO;
 import com.amanda.petshop.entity.Cliente;
+import com.amanda.petshop.entity.Perfil;
 import com.amanda.petshop.entity.Usuario;
 import com.amanda.petshop.mapper.ClienteMapper;
 import com.amanda.petshop.repository.ClienteRepository;
@@ -38,7 +39,7 @@ public class ClienteServiceTest {
 
     @Test
     void testSalvarClienteComSucesso() {
-        Usuario usuario = new Usuario("12345678900", "nome_usuario", "cliente", "senha123");
+        Usuario usuario = new Usuario("12345678900", "nome_usuario", Perfil.CLIENTE, "senha123");
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setNome("Amanda");
         clienteDTO.setUsuarioCpf(usuario.getCpf());
@@ -47,7 +48,7 @@ public class ClienteServiceTest {
         cliente.setNome("Amanda");
         cliente.setUsuario(usuario);
 
-        when(usuarioRepository.findByCpf(usuario.getCpf())).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByCpf(usuario.getCpf())).thenReturn((usuario));
         when(clienteMapper.toEntity(clienteDTO)).thenReturn(cliente);
         when(clienteRepository.save(cliente)).thenReturn(cliente);
         when(clienteMapper.toDTO(cliente)).thenReturn(clienteDTO);
@@ -66,7 +67,7 @@ public class ClienteServiceTest {
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setUsuarioCpf("12345678900");
 
-        when(usuarioRepository.findByCpf(clienteDTO.getUsuarioCpf())).thenReturn(Optional.empty());
+        when(usuarioRepository.findByCpf(clienteDTO.getUsuarioCpf())).thenReturn(null);
 
         RuntimeException exception = assertThrows(RuntimeException.class, () -> clienteService.salvar(clienteDTO));
         assertEquals("Usuário não encontrado", exception.getMessage());

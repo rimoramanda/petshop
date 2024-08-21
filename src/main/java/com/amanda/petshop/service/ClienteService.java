@@ -41,11 +41,11 @@ public class ClienteService {
             throw new IllegalArgumentException("O CPF do usuário não pode ser nulo");
         }
 
-        Usuario usuario = usuarioRepository.findByCpf(clienteDTO.getUsuarioCpf())
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+     Usuario usuario = (Usuario) usuarioRepository.findByCpf(clienteDTO.getUsuarioCpf());
+
 
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
-        cliente.setUsuario(usuario); // Configura o usuário na entidade Cliente
+        cliente.setUsuario(usuario); 
 
         Cliente clienteSalvo = clienteRepository.save(cliente);
         return clienteMapper.toDTO(clienteSalvo);

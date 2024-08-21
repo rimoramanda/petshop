@@ -54,7 +54,7 @@ public class ClienteControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].nome").value("Amanda"))
-                .andExpect(jsonPath("$[1].nome").value("Leticia")) // Verifica o nome do segundo cliente
+                .andExpect(jsonPath("$[1].nome").value("Leticia"))
                 .andExpect(jsonPath("$[2].nome").value("Heloisa"));
 
         verify(clienteService, times(1)).listarTodos();

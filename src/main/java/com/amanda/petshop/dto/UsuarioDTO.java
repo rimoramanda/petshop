@@ -1,5 +1,6 @@
 package com.amanda.petshop.dto;
 
+import com.amanda.petshop.entity.Perfil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import lombok.Setter;
 public class UsuarioDTO {
     private String cpf;
     private String nome;
-    private String perfil;
+    private Perfil perfil;
     private String senha;
 }
 

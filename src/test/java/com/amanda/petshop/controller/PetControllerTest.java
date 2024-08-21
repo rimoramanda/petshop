@@ -117,32 +117,31 @@ public class PetControllerTest {
     void testDeletarPet() throws Exception {
         Long petId = 333L;
 
-        // Simula que o pet existe e pode ser deletado
         doNothing().when(petService).deletar(petId);
-        when(petService.buscarPorId(petId)).thenReturn(Optional.of(new Pet())); // Simula que o pet existe
+        when(petService.buscarPorId(petId)).thenReturn(Optional.of(new Pet()));
 
         mockMvc.perform(delete("/pets/{id}", petId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent()); // Espera-se um status 204 No Content
+                .andExpect(status().isNoContent());
 
         verify(petService, times(1)).deletar(petId);
-        verify(petService, times(1)).buscarPorId(petId); // Verifica se buscarPorId foi chamado
+        verify(petService, times(1)).buscarPorId(petId);
     }
 
     @Test
     void testDeletarPetNaoEncontrado() throws Exception {
         Long petId = 77L;
 
-        // Simula que o pet não existe
+
         when(petService.buscarPorId(petId)).thenReturn(Optional.empty());
 
-        // Realiza a requisição DELETE e verifica o status da resposta
+
         mockMvc.perform(delete("/pets/{id}", petId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound()); // Espera-se um status 404 Not Found
+                .andExpect(status().isNotFound());
 
-        verify(petService, never()).deletar(petId); // Não deve tentar deletar se não encontrar o pet
-        verify(petService).buscarPorId(petId); // Verifica se buscarPorId foi chamado
+        verify(petService, never()).deletar(petId);
+        verify(petService).buscarPorId(petId);
     }
 
 
