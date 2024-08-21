@@ -32,15 +32,13 @@ public class Usuario  implements UserDetails{
     private String senha;
 
     public Usuario() {
-
-    }
-
-    public Usuario(String cpf, String nome, Perfil perfil, String senha) {
         this.cpf = cpf;
         this.nome = nome;
         this.perfil = perfil;
         this.senha = senha;
+
     }
+
 
 
     @Override

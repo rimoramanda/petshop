@@ -2,7 +2,6 @@ package com.amanda.petshop.service;
 
 import com.amanda.petshop.dto.ClienteDTO;
 import com.amanda.petshop.entity.Cliente;
-import com.amanda.petshop.entity.Perfil;
 import com.amanda.petshop.entity.Usuario;
 import com.amanda.petshop.mapper.ClienteMapper;
 import com.amanda.petshop.repository.ClienteRepository;
@@ -12,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -39,7 +36,7 @@ public class ClienteServiceTest {
 
     @Test
     void testSalvarClienteComSucesso() {
-        Usuario usuario = new Usuario("12345678900", "nome_usuario", Perfil.CLIENTE, "senha123");
+        Usuario usuario = new Usuario();
         ClienteDTO clienteDTO = new ClienteDTO();
         clienteDTO.setNome("Amanda");
         clienteDTO.setUsuarioCpf(usuario.getCpf());
